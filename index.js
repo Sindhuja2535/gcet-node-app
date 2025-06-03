@@ -15,12 +15,16 @@ app.get("/greet", (req, res) => {
 });
 
 app.get("/name", (req, res) => {
-  res.send("Sravanthi");
+  res.send("sindhuja");
 });
 
 app.get("/weather", (req, res) => {
   res.send("30 degrees");
 });
+app.get("/command", (req, res) => {
+  res.send("https://jsonplaceholder.typicode.com/comments");
+});
+
 
 app.get("/products", (req, res) => {
   const products = [
