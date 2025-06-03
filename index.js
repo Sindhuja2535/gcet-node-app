@@ -1,36 +1,87 @@
 
 import express from "express";
 import cors from "cors";
+
 const app = express();
-app.listen(8080, () => {
-  console.log("Server Started");
-});
+app.use(express.json());
 app.use(cors());
+
+const users = [];
+
 app.get("/", (req, res) => {
-  return res.send("Good Morning");
-});
-
-app.get("/greet", (req, res) => {
-  res.send("Greetings");
-});
-
-app.get("/name", (req, res) => {
-  res.send("sindhuja");
-});
-
-app.get("/weather", (req, res) => {
-  res.send("30 degrees");
-});
-app.get("/command", (req, res) => {
-  res.send("https://jsonplaceholder.typicode.com/comments");
+  return res.json(users);
 });
 
 
 app.get("/products", (req, res) => {
   const products = [
-    { name: "Product 1", price: 34 },
-    { name: "Product 2", price: 64 },
-    { name: "Product 3", price: 45 },
+    { id: 1, name: "Laptop", price: 999 },
+    { id: 2, name: "Phone", price: 499 },
+    { id: 3, name: "Headphones", price: 199 }
   ];
-  res.json(products);
+  
+  return res.json(products);
 });
+
+app.post("/register", (req, res, next) => {
+  try {
+    console.log("Register request body:", req.body);
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    users.push({ name, email, password });
+    return res.json({ message: "User registered successfully" });
+  } catch (err) {
+    next(err); 
+  }
+});
+
+
+app.post("/login", (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const found = users.find(
+      (value) => value.email === email && value.password === password
+    );
+    if (!found) {
+      return res.status(401).json({ message: "User not found" });
+    }
+    return res.json({ ...found, token: "123" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+app.listen(8080, () => {
+  console.log("Server Started on port 8080");
+});
+
+
+
+// import express from "express";
+// import cors from "cors";
+
+// const app = express();
+// app.use(cors()); 
+// app.use(express.json());
+
+// app.get("/", (req, res) => {
+//   return res.send("Hello");
+// });
+
+// app.get("/weather", (req, res) => {
+//   return res.send("28"); 
+// });
+
+// app.listen(8080, () => {
+//   console.log("Server Started on port 8080");
+// });
+
+
+// app.get("/home", (req, res) => {
+//   return res.send(""); 
+// });
