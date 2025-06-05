@@ -1,11 +1,12 @@
-import express from 'express'
-import productModel from "../models/orderMod.js";
+import express from "express";
+import orderModel from "../models/orderModel.js";
 
-const productRouter = express.Router()
+const orderRouter = express.Router();
 
-productRouter.get("/all", async (req, res) => {
-  const products = await productModel.find();
-  res.json(products);
+orderRouter.post("/new", async (req, res) => {
+  const { email, price } = req.body;
+  const result = orderModel.insertOne({ email, price });
+  return res.json(result);
 });
 
-export default productRouter
+export default orderRouter
