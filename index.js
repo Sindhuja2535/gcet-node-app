@@ -7,17 +7,12 @@ import productRouter from "./routes/productRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
 
 dotenv.config();
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const DBUSER = encodeURIComponent(process.env.DBUSER)
-const DBPASS = encodeURIComponent(process.env.DBPASS)
-const MONGO_URI =`mongodb+srv://${DBUSER}:${DBPASS}@cluster0.qjxhv.mongodb.net/gcet?retryWrites=true&w=majority&appName=Cluste`
+const MONGO_URI = process.env.MONGO_URI
 
-// const MONGO_URI = process.env.MONGO_URI
-//testing
 app.use("/users", userRouter);
 app.use("/products", productRouter);
 app.use("/orders",orderRouter)
